@@ -64,3 +64,29 @@ if(CLANG_FORMAT_EXECUTABLE)
 else()
     message("clang-format not found! Target 'check-clang-format' will not be available.")
 endif()
+
+
+# Find clang-tidy
+find_program(CLANG_TIDY_EXECUTABLE NAMES clang-tidy)
+
+# Create custom target to run clang-tidy
+if(CLANG_TIDY_EXECUTABLE)
+    add_custom_target(
+        clang-tidy
+        COMMAND ${CLANG_TIDY_EXECUTABLE} -p=${CMAKE_BINARY_DIR} ${ALL_SOURCE_FILES}
+        COMMENT "Running clang-tidy"
+    )
+else()
+    message("clang-tidy not found! Target 'clang-tidy' will not be available.")
+endif()
+
+# Create custom target to check clang-tidy
+if(CLANG_TIDY_EXECUTABLE)
+    add_custom_target(
+        check-clang-tidy
+        COMMAND ${CLANG_TIDY_EXECUTABLE} -p=${CMAKE_BINARY_DIR} --warnings-as-errors=* ${ALL_SOURCE_FILES}
+        COMMENT "Checking code quality with clang-tidy"
+    )
+else()
+    message("clang-tidy not found! Target 'check-clang-tidy' will not be available.")
+endif()

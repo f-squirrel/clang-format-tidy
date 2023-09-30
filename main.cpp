@@ -22,8 +22,10 @@ struct Permissions {
 
 int main() {
 
-    auto permissions =
-        Filesystem::Permissions{.read_ = true, .write = true, .Execute = false};
-    (void)permissions;
+    auto permissions    = Filesystem::Permissions{};
+    permissions.Execute = false;
+    permissions.write   = false;
+    permissions.read_   = true;
+
     return 0;
 }

@@ -1,31 +1,48 @@
 #include <string>
+#include <vector>
 
-namespace Filesystem {
+namespace Filesystem { // CamelCase instead of lower_case
 
-class file {
-public:
-    int GetId() const { return id; }
-    auto &GetName() const { return FileName_; }
+enum class Permissions : uint8_t { READ, WRITE, execute };
 
-private:
-    int id;
-    std::string FileName_;
+struct User {
+    std::string name_; // redundant suffix _ for public member
+    int Id = 0;        // CamelCase instead of lower_case
+    Permissions permissions;
 };
 
-struct Permissions {
-    bool read_;
-    bool write;
-    bool Execute;
+class file { // lower_case instead of CamelCase
+public:
+    file(int id, const std::string &file_name,
+         const std::vector<User> access_list)
+        : id{id}, FileName_{file_name}, access_list_{access_list} {}
+
+    int GetId() const // CamelCase instead of lower_case
+    {
+        return id;
+    }
+    auto &getName() const // camelBack instead of lower_case
+    {
+        return FileName_;
+    }
+
+    const std::vector<User> &access_list() const { return access_list_; }
+
+private:
+    int id;                // missing suffix _
+    std::string FileName_; // CamelCase instead of lower_case
+    std::vector<User> access_list_;
 };
 
 } // namespace Filesystem
 
 int main() {
 
-    auto permissions    = Filesystem::Permissions{};
-    permissions.Execute = false;
-    permissions.write   = false;
-    permissions.read_   = true;
+    auto user        = Filesystem::User{};
+    user.name_       = "user";
+    user.permissions = Filesystem::Permissions::execute;
+
+    auto file = Filesystem::file{0, "~/home/user/file", {user}};
 
     return 0;
 }

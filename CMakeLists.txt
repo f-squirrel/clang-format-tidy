@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.10.2)
 
 project(a.out)
 
-set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 # Remove for compiler-specific features
@@ -73,7 +73,7 @@ find_program(CLANG_TIDY_EXECUTABLE NAMES clang-tidy)
 if(CLANG_TIDY_EXECUTABLE)
     add_custom_target(
         clang-tidy
-        COMMAND ${CLANG_TIDY_EXECUTABLE} -p=${CMAKE_BINARY_DIR} ${ALL_SOURCE_FILES}
+        COMMAND ${CLANG_TIDY_EXECUTABLE} -p=${CMAKE_BINARY_DIR} -fix ${ALL_SOURCE_FILES}
         COMMENT "Running clang-tidy"
     )
 else()
